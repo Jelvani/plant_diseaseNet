@@ -24,12 +24,21 @@ class plant_classify:
         path_train = os.path.join(plant_classify.abs_path,self.folder, "train")
         path_valid = os.path.join(plant_classify.abs_path,self.folder, "valid")
         train = keras.preprocessing.image_dataset_from_directory(path_train)
-        self.class_names = train.class_names
+        self.class_names = self._filterLabels(train.class_names)
         val = keras.preprocessing.image_dataset_from_directory(path_valid)
         #normalize pixel values to [0,1]
         train = train.map(self._process)
         val = val.map(self._process)
         return (train,val)
+
+    #filter class names to something user friendly
+    def _filterLabels(self, classes):
+        for i, lbl in enumerate(classes):
+            lbl = list(dict.fromkeys(lbl.split("_")))
+            lbl = list(filter(("").__ne__, lbl))
+            lbl = " ".join(lbl)
+            classes[i] = lbl
+        return classes
 
     def _process(self,image,label):
         image = tf.cast(image/255. ,tf.float32)
@@ -61,21 +70,27 @@ class plant_classify:
         history = model.fit(train,validation_data=validation,epochs=1)
         return model
 
+    #returns a model, loaded from a file name relative to project root folder
     def loadModel(self,file="model.h5"):
         path = os.path.join(plant_classify.abs_path,file)
         model = tf.keras.models.load_model(path)
         return model
 
+    #returns numpy array of given image path that is resized and normalized
     def loadImage(self,file):
         image = tf.keras.preprocessing.image.load_img(file)
         image = keras.preprocessing.image.img_to_array(image)
+        image = keras.preprocessing.image.smart_resize(image,(256,256))
         image = np.array([image])/255.
         return image
 
     def feed(self, model, image):
-        prediction = np.argmax(model.predict(image))
-        return self.class_names[prediction]
+        scores = model.predict(image)
+        prediction = np.argmax(scores)
+        label = self.class_names[prediction]
+        return (scores[0,prediction],label)
 
+    #saves a model to the root directory with the given or default name
     def save(self,model, name = "model"):
         index = 1
         path = os.path.join(plant_classify.abs_path,"{}.h5".format(name))
