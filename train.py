@@ -47,16 +47,15 @@ class plant_classify:
     def train(self,train,validation):
         model = keras.Sequential()
         #we add some convolution layers to find some cool features, and maxpooling to reduce image size
-        model.add(layers.Conv2D(16,(3,3),input_shape=(256,256,3)))
+        model.add(layers.Conv2D(16,(3,3),activation='relu',input_shape=(256,256,3)))
         model.add(layers.MaxPool2D(4,4))
-        model.add(layers.Conv2D(16,(3,3)))
+        model.add(layers.Conv2D(32,(3,3),activation='relu'))
         model.add(layers.MaxPool2D(4,4))
-        model.add(layers.Conv2D(16,(3,3)))
-        model.add(layers.MaxPool2D(4,4))
+        model.add(layers.Conv2D(32,(3,3)))
         #make image into a flat array
         model.add(layers.Flatten())
         #some cool dense layers, maybe we get lucky and it can classify the correct plant disease
-        model.add(layers.Dense(32,activation='relu'))
+        model.add(layers.Dense(64,activation='relu'))
         model.add(layers.Dense(32,activation='relu'))
         #final output layer
         model.add(layers.Dense(len(self.class_names)))
@@ -67,7 +66,7 @@ class plant_classify:
 
         model.summary()
         #train model
-        history = model.fit(train,validation_data=validation,epochs=1)
+        history = model.fit(train,validation_data=validation,epochs=10)
         return model
 
     #returns a model, loaded from a file name relative to project root folder
