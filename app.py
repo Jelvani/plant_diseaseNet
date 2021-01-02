@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__,template_folder='templates')
 app.config['UPLOAD_FOLDER'] = (os.path.join(Path(__file__).parent.resolve(),'uploads'))
+port = int(os.environ.get('PORT', 5000))
 
 def training():
     global train
@@ -40,4 +41,4 @@ def upload():
     return render_template("index.html")
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=port)
