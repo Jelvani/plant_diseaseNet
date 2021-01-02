@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__,template_folder='templates')
 app.config['UPLOAD_FOLDER'] = (os.path.join(Path(__file__).parent.resolve(),'uploads'))
+
 def training():
     global train
     plant = train.plant_classify()
@@ -25,11 +26,18 @@ def test():
 def upload():
     #if we are sent an image
     if request.method == 'POST':
-        f = request.files['file']
-        filename = secure_filename(f.filename)
-        f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        if 'file' in request.files:
+            f = request.files['file']
+            filename = secure_filename(f.filename)
+            if filename == '':
+                return render_template("index.html")
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            plant = train.plant_classify()
+            plant.getData()
+            model = plant.loadModel('model1.h5')
+            image = plant.loadImage(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return render_template("index.html", name = plant.feed(model,image))
     return render_template("index.html")
-
 
 if __name__ == "__main__":
     app.run()
