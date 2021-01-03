@@ -5,6 +5,7 @@ from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__,template_folder='templates')
+'''
 app.config['UPLOAD_FOLDER'] = (os.path.join(Path(__file__).parent.resolve(),'uploads'))
 
 
@@ -39,7 +40,7 @@ def upload():
             image = plant.loadImage(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return render_template("index.html", name = plant.feed(model,image))
     return render_template("index.html")
-
+'''
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 33507))
     print(port)
