@@ -2,7 +2,6 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 import os, numpy as np
-import matplotlib.pyplot as plt
 from pathlib import Path
 
 #below will disable GPU
