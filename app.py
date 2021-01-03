@@ -35,7 +35,6 @@ def upload():
                 return render_template("index.html")
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             plant = train.plant_classify()
-            plant.getData()
             model = plant.loadModel('model1.h5')
             image = plant.loadImage(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return render_template("index.html", name = plant.feed(model,image))

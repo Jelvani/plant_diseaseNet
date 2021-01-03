@@ -15,7 +15,17 @@ from pathlib import Path
 class plant_classify:
     
     abs_path = Path(__file__).parent.resolve()
-
+    class_names = ['Apple scab', 'Apple Black rot', 'Apple Cedar apple rust', 'Apple healthy',
+    'Blueberry healthy', 'Cherry (including sour) Powdery mildew', 'Cherry (including sour) healthy',
+    'Corn (maize) Cercospora leaf spot Gray spot', 'Corn (maize) Common rust',
+    'Corn (maize) Northern Leaf Blight', 'Corn (maize) healthy', 'Grape Black rot', 'Grape Esca (Black Measles)',
+    'Grape Leaf blight (Isariopsis Spot)', 'Grape healthy', 'Orange Haunglongbing (Citrus greening)',
+    'Peach Bacterial spot', 'Peach healthy', 'Pepper, bell Bacterial spot', 'Pepper, bell healthy',
+    'Potato Early blight', 'Potato Late blight', 'Potato healthy', 'Raspberry healthy', 'Soybean healthy',
+    'Squash Powdery mildew', 'Strawberry Leaf scorch', 'Strawberry healthy', 'Tomato Bacterial spot',
+    'Tomato Early blight', 'Tomato Late blight', 'Tomato Leaf Mold', 'Tomato Septoria leaf spot',
+    'Tomato Spider mites Two-spotted spider mite', 'Tomato Target Spot', 'Tomato Yellow Leaf Curl Virus',
+    'Tomato mosaic virus', 'Tomato healthy']
     def __init__(self, folder = "New Plant Diseases Dataset(Augmented)"):
         self.folder = folder
 
@@ -85,7 +95,7 @@ class plant_classify:
     def feed(self, model, image):
         scores = model.predict(image)
         prediction = np.argmax(scores)
-        label = self.class_names[prediction]
+        label = plant_classify.class_names[prediction]
         return (scores[0,prediction],label)
 
     #saves a model to the root directory with the given or default name
