@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__,static_url_path='')
 
-app.config['UPLOAD_FOLDER'] = (os.path.join(Path(__file__).parent.resolve(),'uploads'))
+app.config['UPLOAD_FOLDER'] = ('uploads')
 
 
 def training():
