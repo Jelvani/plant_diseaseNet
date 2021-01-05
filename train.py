@@ -3,6 +3,8 @@ from tensorflow import keras
 from tensorflow.keras import layers
 import os, numpy as np
 from pathlib import Path
+from tensorflow.keras.applications.resnet50 import ResNet50
+from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
 
 #below will disable GPU
 #os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
@@ -54,23 +56,13 @@ class plant_classify:
         return image,label
 
     def train(self,train,validation):
-        model = keras.Sequential()
-        #we add some convolution layers to find some cool features, and maxpooling to reduce image size
-        model.add(layers.Conv2D(16,(3,3),activation='relu',input_shape=(256,256,3)))
-        model.add(layers.MaxPool2D(4,4))
-        model.add(layers.Conv2D(32,(3,3),activation='relu'))
-        model.add(layers.MaxPool2D(4,4))
-        model.add(layers.Conv2D(32,(3,3)))
-        #make image into a flat array
-        model.add(layers.Flatten())
-        #some cool dense layers, maybe we get lucky and it can classify the correct plant disease
-        model.add(layers.Dense(64,activation='relu'))
-        model.add(layers.Dense(32,activation='relu'))
+        #get ResNet50 model
+        model = ResNet50(include_top=True, weights=None,input_shape=(256, 256, 3),classes=38)
         #final output layer
-        model.add(layers.Dense(len(self.class_names)))
+       #model.add(layers.Dense(len(self.class_names)))
         model.build((256,256,3))
         model.compile(optimizer='adam',
-                    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+                    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
                     metrics=['accuracy'])
 
         model.summary()
