@@ -6,8 +6,7 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__,static_url_path='')
 
-app.config['UPLOAD_FOLDER'] = (os.path.join(Path(__file__).parent.resolve(),'uploads')
-
+app.config['UPLOAD_FOLDER'] = (os.path.join(Path(__file__).parent.resolve(),'uploads'))
 
 def training():
     global train
@@ -43,5 +42,4 @@ def upload():
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 33507))
-    print(port)
     app.run(host = '0.0.0.0', debug=True,port=port)
