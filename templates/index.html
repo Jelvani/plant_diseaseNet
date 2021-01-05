@@ -1,14 +1,64 @@
-<html>
-    <head>
-        
-    </head>
-    <body>
-       
-        <form method = "POST" enctype = "multipart/form-data">
-            <label for="img">Select image:</label>
-            <input type="file" name="file" accept="image/*">
-            <input type="submit">
-          </form>
-          <p>{{name}}</p>
-    </body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Plant Disease Detector through deep learning">
+    <meta name="author" content="Alborz Jelvani">
+    <title>Plant Disease Detector</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+  </head>
+
+  <body class = "bg-cool">
+
+    <div class="jumbotron">
+        <div class="container">
+          <h1 class="display-3">Plant Disease Detector</h1>
+          <p>Detecting plant diseases with deep learning.</p>
+          <p><a class="btn btn-primary btn-lg" href="https://github.com/Jelvani/plant_diseaseNet" role="button">Github &raquo;</a></p>
+        </div>
+    </div>
+
+    <div class="container">    
+        <div class="row mb-4 justify-content-center">
+            <table class="table-borderless">
+            <tbody>
+              <tr>
+                <th scope="col"><img class="grid" src="images/tomatoe_blight.JPG" alt=""></th>
+                <th scope="col"><img class="grid" src="images/strawberry_scorch.JPG" alt=""></th>
+                <th scope="col"><img class="grid" src="images/grape_healthy.JPG" alt=""></th>
+              </tr>
+              <tr>
+                <th scope="col"><img class="grid" src="images/apple_healthy.JPG" alt=""></th>
+                <th scope="col"><img class="grid" src="images/peach_bacteria.JPG" alt=""></th>
+                <th scope="col"><img class="grid" src="images/potato_healthy.JPG" alt=""></th>
+              </tr>
+              <tr>
+                <th scope="col"><img class="grid" src="images/cherry_mildew.JPG" alt=""></th>
+                <th scope="col"><img class="grid" src="images/corn_rust.JPG" alt=""></th>
+                <th scope="col"><img class="grid" src="images/blueberry_healthy.JPG" alt=""></th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row mb-4 justify-content-center">
+            <form class="form" method = "POST" enctype = "multipart/form-data">
+                <div class="row mb-2 justify-content-center">
+                    <input type="file" class="form-control-file" name="file" accept="image/*" required>
+                </div>
+                <div class="row justify-content-center">
+                <input class="btn btn-primary" type="submit">
+            </div>
+            </form>
+        </div>
+        <div class="row justify-content-center">
+            <p class="large">{{name}}</p>
+        </div>  
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+  </body>
 </html>

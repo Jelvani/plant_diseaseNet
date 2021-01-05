@@ -4,7 +4,7 @@ from pathlib import Path
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 
-app = Flask(__name__,template_folder='templates')
+app = Flask(__name__,static_url_path='')
 
 app.config['UPLOAD_FOLDER'] = (os.path.join(Path(__file__).parent.resolve(),'uploads'))
 
@@ -37,10 +37,11 @@ def upload():
             plant = train.plant_classify()
             model = plant.loadModel('model1.h5')
             image = plant.loadImage(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return render_template("index.html", name = plant.feed(model,image))
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return render_template("index.html", name = plant.feed(model,image)[1])
     return render_template("index.html")
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 33507))
     print(port)
-    app.run(host="0.0.0.0", debug=True,port=port)
+    app.run(host = '0.0.0.0', debug=True,port=port)
